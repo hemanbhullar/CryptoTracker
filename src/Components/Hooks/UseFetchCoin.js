@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useQuery } from "react-query";
 import { fetchCoinDetails } from "../../services/FetchCoinDetails";
+import { CurrencyContext } from "../../Context/CurrencyContext";
 
 function useFetchCoin(coinId) {
 
