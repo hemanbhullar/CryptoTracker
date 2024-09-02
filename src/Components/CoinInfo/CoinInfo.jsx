@@ -2,33 +2,11 @@ import Alert from "../Alert/Alert.";
 import { Line } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { Chart } from "chart.js/auto";
+import { chartDays } from "../../helpers/contants";
 
 
 function CoinInfo({ historicData, setDays, setCoinInterval, days, currency }) {
 
-    const chartDays = [
-        {
-            label: '24 Hours',
-            value: 1
-        },
-        {
-            label: '7 Days',
-            value: 7
-        },
-        {
-            label: '30 Days',
-            value: 30
-        },
-        {
-            label: '90 Days',
-            value: 90
-        },
-        {
-            label: '365 Days',
-            value: 365
-        },
-
-    ]
 
     function handleDayChange(e) {
         const daysSelected = e.target.value;
