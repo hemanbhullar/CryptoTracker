@@ -22,7 +22,7 @@ function useFetchCoinHistory(coinId) {
         return <Alert message="Error fetching data" type="error" />
     }
 
-    return(
+    return{
         historicData,
         isLoading,
         isError,
@@ -30,7 +30,7 @@ function useFetchCoinHistory(coinId) {
         setCoinInterval,
         days,
         currency
-    )
+    }
 }
 
 export default useFetchCoinHistory;

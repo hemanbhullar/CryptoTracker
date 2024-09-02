@@ -1,24 +1,15 @@
-import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { fetchCoinDetails } from "../services/FetchCoinDetails";
 // import { useEffect } from "react";
 import parse from 'html-react-parser';
-import { CurrencyContext } from "../Context/CurrencyContext";
-import { useContext, useEffect } from "react";
 import Combining from "../Components/Chart/Chart";
 import CoinInfoContainer from "../Components/CoinInfo/CoinInfoContainer";
+import useFetchCoin from "../Components/Hooks/UseFetchCoin";
 
 function CoinDetailsPage() {
-    const { coinId } = useParams();
+    
+    const { coinId } =  useParams();
 
-    const {currency} = useContext(CurrencyContext);
-
-    //Todo , make api call and fetch the data
-
-    const { data: coin, isLoading, isError, error } = useQuery(['coinDetails', coinId], () => fetchCoinDetails(coinId), {
-        cacheTime: 1000 * 60 * 2,
-        staleTime: 1000 * 60 * 2,
-    });
+    const { isLoading, isError, coin, currency } = useFetchCoin(coinId);
 
     // useEffect(() => {
     //     console.log(coin);
