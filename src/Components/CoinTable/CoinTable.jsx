@@ -53,13 +53,43 @@ import { useNavigate } from "react-router-dom";
 function CoinTable() {
     const {currency} = useContext(CurrencyContext);
     const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [tableData, setData] = useState([]);
     const navigate = useNavigate();
-    const { data, isLoading, isError, error } = useQuery(['coins', page, currency], () => fetchCoinData(page, currency), {
+    const { data, isLoading, isError, error } = useQuery(['coins', page, currency, setLoading, setData], () => fetchCoinData(page, currency, setLoading, setData), {
         // retry: 2,
         // retryDelay: 1000,
         cacheTime: 1000 * 60 * 2,
         staleTime: 1000 * 60 * 2,
     }); 
+
+    const handleScroll = () => {
+        if(
+            document.body.scrollHeight - 300 < window.scrollY + window.innerHeight
+        ){
+            setLoading(true);
+        }
+    }
+
+    function debounce(func, delay) {
+        let timeoutId;
+        return function(...args){
+            if(timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            timeoutId = setTimeout(() => {
+                func(...args);
+            }, delay);
+        };
+    }
+
+    window.addEventListener("scroll", debounce(handleScroll, 1000));
+
+    useEffect(() => {
+        if(loading == true) {
+            setPage((page) => page+1);
+        }
+    },  [loading]);
 
     function handleCoinRedirect(coinId) {
         navigate(`/details/${coinId}`);
@@ -92,7 +122,7 @@ function CoinTable() {
 
             <div className="flex flex-col w-[80vw] mx-auto">
                 {isLoading && <div>Loading....</div>}
-                {data && data.map((coin) => {
+                {tableData && tableData.map((coin) => {
                     return (
                         <div onClick={() => handleCoinRedirect(coin.id)} key={coin.id} className="w-full bg-transparent text-white flex py-4 px-2 font-semibold items-center justify-between cursor-pointer">
                             <div className="flex items-center justify-start gap-3 basis-[35%]">
@@ -118,7 +148,7 @@ function CoinTable() {
                 })}
             </div>
 
-            <div className="flex gap-4 justify-center items-cennter">
+            {/* <div className="flex gap-4 justify-center items-cennter">
                 <button
                     disabled={page === 1}
                     onClick={() => setPage(page - 1)}
@@ -132,7 +162,7 @@ function CoinTable() {
                 >
                     Next
                 </button>
-            </div>
+            </div> */}
         </div>
     )
 }
