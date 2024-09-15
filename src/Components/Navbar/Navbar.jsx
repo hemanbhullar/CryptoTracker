@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { CurrencyContext } from "../../Context/CurrencyContext";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "../Search/Search";
 
 function Navbar() {
     const { setCurrency } = useContext(CurrencyContext);
@@ -42,7 +43,8 @@ function Navbar() {
                     <a className="btn btn-ghost text-xl">Crypto Tracker</a>
                 </div>
                 <div className="navbar-end">
-                    <button className="btn btn-ghost btn-circle">
+                    <SearchBar/>
+                    <button className="btn btn-ghost btn-circle" >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-5 w-5"
